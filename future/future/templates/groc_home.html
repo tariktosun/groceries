@@ -7,13 +7,6 @@
 <p>My first paragraph.</p>
 
 
-{% for user in members %}
-<div class="user">
-  foo
-  <p>{{user.firstname}} {{user.lastname}}</p>
-</div>
-{% endfor %}
-
 <h2> Here are the items! </h2>
 {% for item in items %}
   <div class="item">
@@ -21,15 +14,44 @@
   </div>
 {% endfor %}
 
+<h2> Suggestion List </h2>
+{% for item in suggestionListItems %}
+  <div class="item">
+    {{item.name}} - {{item.frequency}}
+      <form name="addFromSuggestions" action="/suggestionAdd/" method="post">
+        {% csrf_token %}
+        <button class="addSuggestedButton"
+          add
+        </button>
+        <input type="hidden" name="itemPK" value={{ item.pk }} />
+      </form>
+  </div>
+{% endfor %}
+
+<h2> Shopping List </h2>
+{% for item in shoppingListItems %}
+  <div class="item">
+    {{item.name}} - {{item.frequency}}
+  </div>
+{% endfor %}
+
 <div class="add-item">
-  <form name="input" action="/addItem/" method="post">
+  <form name="add-item" action="/addItem/" method="post">
     {% csrf_token %}
     <div class="textbox">
      <textarea class="addItemPrompt" name="itemName"> New Item... </textarea>
-      <div style="width: 100%; text-align:center;">
-      <input type="submit" class="button" value="Submit"></div>
+      <div style="width: 100%; text-align:left;">
+      <input type="submit" class="button" value="Add New Item"></div>
     </div>
+  </form>
+</div>
 
+<div class="archiveButton">
+  <form name="archive" action="/archive/" method="post">
+    {% csrf_token %}
+    <div style="width: 100%; text-align:left;">
+      <input type="submit" class="button" value="Archive Shopping List">
+    </div>
   </form>
 </div>
 

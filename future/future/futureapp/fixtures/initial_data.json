@@ -8,14 +8,6 @@
     }
   },
   {
-    "model": "futureapp.ShoppingList",
-    "pk":101,
-  },
-  {
-    "model": "futureapp.SuggestionList",
-    "pk":102,
-  },
-  {
     "model": "futureapp.User",
     "pk": 1,
     "fields": {

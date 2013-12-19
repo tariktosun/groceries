@@ -27,18 +27,42 @@ from django.db.models import Q # for search
 def groc_drop(request):
     """ Drop page for groceries. """
     return render_to_response('groc_splash.html')
+def initializeLists(request):
+  """ Initialize ShoppingList and SuggestionList. Should only be called ONCE. """
+  #if request.method != 'POST':
+  #  return HttpResponse
+  suggestionList = SuggestionList()
+  shoppingList = ShoppingList()
+
+  try:
+    suggestionList.save()
+  except IntegrityError:
+    return error(request, 'Database Error: SuggestionList creation failed.')
+  try:
+    shoppingList.save()
+  except IntegrityError:
+    return error(request, 'Database Error: ShoppingList creation failed.')
+  #  
+  return render_to_response('groc_splash.html')
 
 def renderGrocHomepage(request):
   """ Renders homepage for groceries. """
-  #members = User.objects.all()
-  #members = list(members)
+  # items:
   items = Item.objects.all()
   items = list(items)
-  c = RequestContext(request, {'members':members, 'items':items})
+  # suggestionList:
+  suggestionList = SuggestionList.objects.all() # comes out as a queryDict (I think...)
+  suggestionList = suggestionList[0] # there's only one.
+  suggestionList = list(suggestionList.items.order_by('-frequency')) # Pull out the items.
+  # shoppingList:
+  shoppingList = ShoppingList.objects.all()
+  shoppingList = shoppingList[0] 
+  shoppingList =list(shoppingList.items.all())
+  c = RequestContext(request, {'items':items, 'suggestionListItems':suggestionList, 'shoppingListItems':shoppingList})
   return render_to_response('groc_home.html', c)
 
-def addItem(request):
-  """ Add an item to the database. """
+def addNewItem(request):
+  """ Add an item to the shopping list, and item list. """
   if request.method != 'POST':
     return HttpResponse
 
@@ -46,13 +70,84 @@ def addItem(request):
   name = request.POST.get('itemName', '')
   newItem = Item( name = name,
                   frequency = 0)
-
   # save:
   try:
     newItem.save()
   except IntegrityError:
     return error(request, 'Database Error: Item Creation failed.')
+
+  # add to shopping list:
+  shoppingList = ShoppingList.objects.all()
+  shoppingList = shoppingList[0] 
+  shoppingList.items.add(newItem)
+
   return renderGrocHomepage(request);
+
+def addFromSuggestions(request):
+  """ Adds a new item to the shopping list from the suggestion list, and
+  removes item from suggestion list. """
+  if request.method != 'POST':
+    return HttpResponse
+
+  # get item:
+  pk = request.POST.get('itemPK')
+  item = Item.objects.filter(pk = pk)[0]
+  # add to list:
+  shoppingList = ShoppingList.objects.all()[0]
+  shoppingList.items.add(item)
+  # remove from list:
+  suggestionList = SuggestionList.objects.all()[0]
+  suggestionList.items.remove(item)
+  # # save:
+  # try:
+  #   newItem.save()
+  # except IntegrityError:
+  #   return error(request, 'Database Error: Item Creation failed.')
+
+  # # add to shopping list:
+  # shoppingList = ShoppingList.objects.all()
+  # shoppingList = shoppingList[0] 
+  # shoppingList.items.add(newItem)
+
+  return renderGrocHomepage(request);
+
+def archiveShoppingList(request):
+  """ Archives the shopping list: Adds 1 to frequency of all items in shopping list, and removes
+  all items from shoppingList.  Then, repopulates the suggestion list."""
+  if request.method != 'POST':
+    return HttpResponse
+  # Delete each item from shopping list, and add 1 to its frequency.
+  shoppingList = ShoppingList.objects.all()
+  shoppingList = shoppingList[0] 
+  for item in  shoppingList.items.all():
+    item.frequency = item.frequency + 1
+    try:
+      item.save()
+    except IntegrityError:
+      return error(request, 'Database Error: Item freq increment failed.')
+    shoppingList.items.remove(item)
+  # try:
+  #   shoppingList.save()
+  # except IntegrityError:
+  #   return error(request, 'Database Error: shoppingList archive saving failed.')
+
+  # Now repopulate the suggestion list:
+  populateSuggestions(request)
+  return renderGrocHomepage(request)
+
+def populateSuggestions(request):
+  """ Populates suggestion list with all items in database, sorted by frequency. """
+  suggestionList = SuggestionList.objects.all() # comes out as a queryDict (I think...)
+  suggestionList = suggestionList[0]
+  # populate with items:
+  items = Item.objects.all()
+  suggestionList.items = items
+  try:
+    suggestionList.save()
+  except IntegrityError:
+    return error(request, 'Database Error: Failed to populate suggestion list.')
+
+
 
 ### ------------ Groceries stuff ends here -------------------- ###
 
