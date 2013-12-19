@@ -1,0 +1,31 @@
+<div id="friends-games" class="search-field">
+	<div class="filters">
+		<form name="filter" action="/renderFilteredLobby/" method="post">
+			<div class="styled-select">
+				<select name="sport" class="setSport">
+					<option value="basketball">Basketball</option>
+					<option value="tennis">Tennis</option>
+					<option value="lacrosse">Lacrosse</option>
+					<option value="baseball">Baseball</option>
+				</select>
+			</div>
+			<div class="styled-select" style="float:right;" class="setStyle">
+				<select name="style" class="styled-select">
+					<option value="competitive">Competitive</option>
+					<option value="tennis">Casual</option>
+				</select>
+			</div>
+			<span class="fg-title">FRIEND'S GAMES <span><br>
+			<input type="submit" value="Filter">
+		</form>
+	</div>
+
+	<div class="games-grid">
+
+	{% for game in lobby_games %}	
+	<div class="box">
+	</div>
+	{% endfor %}
+
+	</div>
+</div>

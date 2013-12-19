@@ -1,0 +1,59 @@
+<div id="lobby" class="search-field" style"position: absolute; top: 0; right: 0;">
+
+<div class="filters" style="background: url('/static/images/logo.png') no-repeat;
+	background-position: bottom left;">
+	<form name="filter" action="/renderFilteredLobby/" method="post">
+		{% csrf_token %}
+		<div class="styled-select">
+			<select name="sport" class="lobbySetSport">
+				<option value="any">Any</option>
+				<option value="bskt">Basketball</option>
+				<option value="tnns">Tennis</option>
+				<option value="sccr">Soccer</option>
+			</select>
+		</div>
+		<br><br>
+		<div class="styled-select">
+			<select name="style" class="lobbySetStyle">
+				<option value="either">Either</option>				
+				<option value="comp">Competitive</option>
+				<option value="casu">Casual</option>
+			</select>
+		</div>
+		<br><br>
+		<input class="button" type="submit" value="Filter" style="float: right;">
+	</form>
+</div>
+
+
+<div class="games-grid">
+
+{% for game in lobby_games %}	
+<div class="box">
+	<div class="icon" style="background-repeat: no-repeat; 
+							height: 150px; width: 150px; clear: none;
+							background-size: cover; display: block;
+							float: right;
+							background-image: url('/static/images/{{ game.sport }}larger.png');"></div>
+		<div><em>{{ game.name }}</em> <br> {{ game.get_sport_display }} </div> <br>
+		<div class="textual-info" style="height: 100px;">
+			A {% if game.style == "comp" %}
+				competitive
+				{% else %}
+			    casual
+				{% endif %}
+				game of {{ game.get_sport_display }} <br>
+				at {{ game.location }}<br> <br>
+				{{game.game_datetime}} <br>
+				{{game.players.count}} player(s)<br>
+		</div>
+        <form action="/joinGame/" method="post">
+          {% csrf_token %}
+          <button class="button" style="float: right;">Join</button>
+          <input type="hidden" name="game_to_join_pk" value={{game.pk}} />
+        </form>
+      </div>
+      {% if forloop.counter|divisibleby:3 %} <br><br><br><br> <br><br><br><br><br><br><br><br><br><br><br><br>{% endif %}
+{% endfor %}
+	  </div>
+</div>

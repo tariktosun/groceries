@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <title>Web F. Site</title>
+    
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
+    <script src="/static/js/newuser.js"></script>
+  </head>
+
+  <body>
+    
+    {% include 'nav.html' %}
+    <div class="break">      
+    </div>
+
+    <div id="main">
+      <div id="container">
+                
+        <div class="heading">
+          Wombling Creation
+        </div>
+        
+        <div class="content-container" style="width:450px;">
+          
+          <div class='post'>
+            <form action="/createGame/" method="post">
+              {% csrf_token %}
+              
+              <textarea name="name" class="netidform">name</textarea>
+              <textarea name="sport" class="firstform">sport</textarea>
+              <textarea name="location" class="lastform">location</textarea>
+              <textarea name="datetime" class="lastform">datetime</textarea>
+              <textarea name="min_players" class="lastform">min_players</textarea>
+              <textarea name="max_players" class="lastform">max_players</textarea>
+              <textarea name="style" class="lastform">style</textarea>
+
+              
+              <div id="bottomForm" style="margin-top:10px;">	
+                <select name="year">
+                  <option value="2014">Sophomore</option>
+                  <option value="2013">Junior</option>
+                  <option value="2012">Senior</option>
+                </select>
+                
+                <select name="admin">
+                  <option value="ME">Member</option>
+                  <option value="FC">Food Chair</option>
+                  <option value="OF">Officer</option>
+                </select>
+                
+                <button class="submitButton" style="display:inline;">
+                  Create Game 
+                </button>
+                
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+      
+  </body>
+  
+</html>

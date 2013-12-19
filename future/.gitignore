@@ -1,0 +1,13 @@
+#ignore database
+future/futuredb
+
+# Ignore comiled Python files
+*.pyc
+
+# Ignore other unneeded files
+*.swp
+*~
+.project
+.DS_Store
+#*
+.#*

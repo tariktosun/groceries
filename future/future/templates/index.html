@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>pick up sports</title>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/scripts.js"></script>
+    <link rel=stylesheet href="/static/css/style.css" type="text/css" media=screen>
+    <link rel="icon" 
+      type="image/png" 
+      href="/static/images/favicon.ico">
+  </head>
+  <body>
+  	<div class="currentSelectedSport" id="{{sport_filter}}"></div>
+  	<div class="currentSelectedStyle" id="{{style_filter}}"></div>
+  	<!-- Retractable portion -->
+  	<div id="sidestream">
+		<div id="sidebar">
+			<!-- User Info -->
+			<div class="profile-pic">
+				<div href="#" class="switchToProfile"><img src={{curUser.largepic}} alt="you"></div>
+				<span id="username"> {{curUser.firstname}} {{curUser.lastname}} </span> 
+				<div id="stars">
+					<img src="/static/images/star.png" alt="star">
+					<img src="/static/images/star.png" alt="star">
+					<img src="/static/images/star.png" alt="star">
+					<img src="/static/images/star.png" alt="star">
+					<img src="/static/images/star.png" alt="star">
+				</div>
+			</div>
+
+			<div class="sidebar-break"></div>
+    	
+    	{% include 'card.html' %}
+
+		<!-- Bottom Sidebar Toolbar -->
+		<div id="sidebar-options">
+			<table>
+				<tr>
+					<td id="add-game-button">
+						<img src="/static/images/add.png">
+					</td>
+					<td>
+						<a href="/directory/"><img src="/static/images/profile.png"></a>
+					</td>
+					<td class="switchToLobby">
+						<img src="/static/images/grid.png">
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- Arrow -->
+		<div id="arrow">
+			<img src="/static/images/left-arrow.png" alt="arrow">
+		</div>
+	</div>
+
+    	{% include 'add_game.html' %}
+    	{% include 'profile.html' %}
+    	{% include 'game.html' %}
+    	{% include 'lobby.html' %}
+    	{% include 'friends-games.html' %}
+	
+	 <div id="profile" class="search-field"></div>
+	 <div id="game" class="search-field"></div>
+	 <div id="lobby" class="search-field"></div>
+	 <div id="friends-games" class="search-field"></div>
+
+	<!-- Javascript Hack -->
+	<div id="arrow-hover"></div>
+  </body>
+</html>

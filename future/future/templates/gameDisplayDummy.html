@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<body>
+
+  {% for game in games_list %}
+    <div class="game">
+      <div> leader: {{game.leader.firstname}} </div>
+      <div> game name: {{ game.name }} </div>
+      <div> sport: {{game.sport}} </div>
+      <div> location: {{ game.location }} </div>
+      <div> game_datetime: {{game.game_datetime}} </div>
+      <div> style: {{game.style}} </div>
+      <div> min_number_players: {{game.min_number_players}} </div>
+      <div> max number players: {{game.max_number_players}} </div>
+
+      {% for player in game.players.all %}
+        <div> player firstname: {{player.firstname}} </div>
+      {% endfor %}
+      <br>
+
+      <div>
+        <form action="/joinGame/" method="post">
+          {% csrf_token %}
+          <button>Join Game</button>
+          <input type="hidden" name="game_to_join_name" value={{game.name}} />
+        </form>
+      </div>
+
+      <div>
+        <form action="/leaveGame/" method="post">
+          {% csrf_token %}
+          <button>Leave Game</button>
+          <input type="hidden" name="game_to_leave_name" value={{game.name}} />
+        </form>
+      </div>
+
+      <div>
+        <form action="/inactivateGame/" method="post">
+          {% csrf_token %}
+          <button>Inactivate Game</button>
+          <input type="hidden" name="game_to_inactivate_pk" value={{game.pk}} />
+        </form>
+      </div>
+
+    </div>
+  {% endfor %}
+
+  <br>
+  {% for game in games_leading %}
+    <div> leading game: {{game.name}} </div>
+
+  {% endfor %}
+
+  <br>
+  {% for game in games_playing %}
+    <div> playing in game: {{game.name}} </div>
+  {% endfor %}
+</body>

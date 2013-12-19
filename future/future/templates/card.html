@@ -1,0 +1,104 @@
+			<!-- Admin Games Info -->
+			<div class="sidebar-game-list-title">My Admin Games</div>
+			<div class="sidebar-break" style="height: 1px;"></div>
+			<div class="sidebar-game-list">
+			  {% for game in games_leading %}	
+				<div class="card" style="padding-bottom: 1px;">
+					<div class="cardTooltip">
+						<div class="icon" style="background-repeat: no-repeat; 
+												 height: 150px; width: 150px; 
+												 background-size: cover; display: block;
+												 background-image: url('/static/images/{{ game.sport }}larger.png');"></div>
+						<div class="game-title">{{ game.name }}</div>
+						<div class="game-sport">{{ game.get_sport_display }} </div><br>
+						<div class="thisDate" id="{{game.game_datetime}}"></div>
+						<div class="textual-info">
+							A {% if game.style == "comp" %}
+								    competitive
+								{% else %}
+								    casual
+								{% endif %}
+							game of {{ game.get_sport_display }}
+							at {{ game.location }},  <div class="fillDate"></div><br>
+							<em>{{ game.notes }}</em>
+							{{game.min_number_players}} - {{game.max_number_players}} players<br>
+							Players:<br>
+							{% for player in game.players.all %}
+								<a href=http://facebook.com/{{player.fbid}}> {{ player.firstname }} </a><br>
+							{% endfor %}
+							<div class="buttons">	
+					        <form action="/leaveGame/" method="post" style="float: right;">
+					          {% csrf_token %}
+							  <button href="#" class="button">Leave Game</button>
+					          <input type="hidden" name="game_to_leave_pk" value={{game.pk}} />
+					        </form>
+							</div>
+						</div>
+					</div>
+					<div class="icon" 
+						 style="background-image: url('/static/images/{{ game.sport }}.png');">
+						<img src="/static/images/{{ game.style }}.png" alt="skill" class="skill">
+					</div>
+					<div class="card-text">
+						<div class="card-date">{{ game.name }}</div>
+						<br>
+						<div class="card-location">{{ game.location }}</div>
+						<br>
+						<div class="card-capacity">{{ game.players.count }} / {{ game.max_number_players }}</div>
+					</div>
+				</div>
+  			{% endfor %}
+			</div>
+			<div class="sidebar-break" style="height: 1px;"></div>
+			<!-- Joined Games Info -->
+			<div class="sidebar-game-list-title">Joined Games</div>
+			<div class="sidebar-break" style="height: 1px;"></div>
+			<div class="sidebar-game-list">
+			  {% for game in games_playing %}	
+				<div class="card" style="padding-bottom: 1px;">
+					<div class="cardTooltip">
+						<div class="icon" style="background-repeat: no-repeat; 
+												 height: 150px; width: 150px; 
+												 background-size: cover; display: block;
+												 background-image: url('/static/images/{{ game.sport }}larger.png');"></div>
+						<div class="game-title">{{ game.name }}</div>
+						<div class="game-sport">{{ game.get_sport_display }} </div><br>
+						<div class="thisDate" id="{{game.game_datetime}}"></div>
+						<div class="textual-info">
+							A {% if game.style == "comp" %}
+								    competitive
+								{% else %}
+								    casual
+								{% endif %}
+							game of {{ game.get_sport_display }}
+							at {{ game.location }},  <div class="fillDate"></div><br>
+							<em>{{ game.notes }}</em><br>
+							{{game.min_number_players}} - {{game.max_number_players}} players<br>
+							Players:<br>
+							{% for player in game.players.all %}
+								<a href=http://facebook.com/{{player.fbid}}> {{ player.firstname }} </a><br>
+							{% endfor %}
+							<div class="buttons">	
+					        <form action="/leaveGame/" method="post" style="float: right;">
+					          {% csrf_token %}
+							  <button href="#" class="button">Leave Game</button>
+					          <input type="hidden" name="game_to_leave_pk" value={{game.pk}} />
+					        </form>
+							</div>
+						</div>
+					</div>
+					<div class="icon" 
+						 style="background-image: url('/static/images/{{ game.sport }}.png');">
+						<img src="/static/images/{{ game.style }}.png" alt="skill" class="skill">
+					</div>
+					<div class="card-text">
+						<div class="card-date">{{ game.name }}</div>
+						<br>
+						<div class="card-location">{{ game.location }}</div>
+						<br>
+						<div class="card-capacity">{{ game.players.count }} / {{ game.max_number_players }}</div>
+					</div>
+				</div>
+  			{% endfor %}
+			</div>
+		</div>

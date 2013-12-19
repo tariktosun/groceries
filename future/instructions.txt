@@ -1,0 +1,37 @@
+Instructions for setting up:
+1) Install pip and virtualenv:
+	(http://docs.python-guide.org/en/latest/starting/install/osx/#install-osx)
+	(we'll be working inside a virtual environment so that everything is
+	  standard no matter where we are working)
+2) Set up a virtual environment:
+	mkdir ~/.virtualenvs
+	virtualenv ~/.virtualenvs/future
+	(don't start the virtual enviroment yet)
+3) Install foreman
+	3a) install rvm with your package manager.
+	3b) reload your shell
+		source ~/.bashrc
+	3c) Install foreman
+		gem install foreman
+3) Clone the Git repo:
+	3a) set up git:
+		http://help.github.com/mac-set-up-git/
+	3b) Clone the repo:
+		mkdir [dir_for_project]
+		git clone https://github.com/jsnydes/future
+4) Enter virtual environment, and install dependencies:
+	source ~/.virtualenvs/future/bin/activate
+		(you will see '(future)' prepended to your prompt)
+	cd [dir_for_project]
+	pip install -r requirements.txt
+5) test that everything worked...
+	foreman start
+	(you should see no error messages)
+	(go to localhost:5000 in browser to see site.)
+
+That's it!  Everything is set up in your virtual environment.  Whenever you want
+to work in the environment again, just do:
+
+'source ~/.virtualenvs/future/bin/activate'
+
+and everything will be there.

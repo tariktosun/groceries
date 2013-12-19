@@ -1,0 +1,84 @@
+[
+  {
+    "model": "futureapp.Item",
+    "pk":100,
+    "fields": {
+      "name": "lemons",
+      "frequency": 2
+    }
+  },
+  {
+    "model": "futureapp.ShoppingList",
+    "pk":101,
+  },
+  {
+    "model": "futureapp.SuggestionList",
+    "pk":102,
+  },
+  {
+    "model": "futureapp.User",
+    "pk": 1,
+    "fields": {
+      "netid": "jasnyder",
+      "firstname": "Jeff",
+      "lastname": "Snyder",
+      "year": "2013",
+      "fbid": "1236870289",
+      "authenticated": "True",
+      "authcode": "hello, world!",
+      "admin": "BAMF",
+      "pic": "https://graph.facebook.com/1236870289/picture?type=square",
+      "largepic": "https://graph.facebook.com/1236870289/picture?type=large"
+    }
+  },
+
+  {
+    "model": "futureapp.User",
+    "pk": 3,
+    "fields": {
+      "netid": "pzakin",
+      "firstname": "Peter",
+      "lastname": "Zakin",
+      "year": "2012",
+      "fbid": "1380180326",
+      "authenticated": "True",
+      "authcode": "hello, world!",
+      "admin": "BAMF",
+      "pic": "https://graph.facebook.com/1380180326/picture?type=square",
+      "largepic": "https://graph.facebook.com/1380180326/picture?type=large"
+    }
+  },
+  {
+    "model": "futureapp.User",
+    "pk": 4,
+    "fields": {
+      "netid": "tester",
+      "firstname": "Jon",
+      "lastname": "Admin",
+      "year": "2012",
+      "fbid": "100003869949054",
+      "authenticated": "True",
+      "authcode": "hello, world!",
+      "admin": "BAMF",
+      "pic": "https://graph.facebook.com/100003869949054/picture?type=square",
+      "largepic": "https://graph.facebook.com/100003869949054/picture?type=large"
+    }
+  },
+  {
+    "model": "futureapp.User",
+    "pk": 5,
+    "fields": {
+      "netid": "testuser",
+      "firstname": "Jon",
+      "lastname": "Member",
+      "year": "2012",
+      "fbid": "100003879096499",
+      "authenticated": "True",
+      "authcode": "hello, world!",
+      "admin": "ME",
+      "pic": "https://graph.facebook.com/100003879096499/picture?type=square",
+      "largepic": "https://graph.facebook.com/100003879096499/picture?type=large"
+    }
+  }
+]
+

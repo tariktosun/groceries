@@ -1,0 +1,48 @@
+<div id="profile" class="search-field">
+	<span class="image-container">
+		<img src={{curUser.largepic}}>
+        <form action="/logout/" method="post">
+          {% csrf_token %}
+          <button class="button" style="margin-left: 70px;">Logout</button>
+        </form>
+	</span>
+	<div class="search-query-field">
+		<div class="search"></div>
+		<form action="/search/" method="post">
+	    	<div style="display:none">
+	    		<input type="hidden" name="csrfmiddlewaretoken" value="144b205117375ff44efdcd0f54d7003b">
+	    	</div>
+	    		<textarea class="searchBox" name="query" value="" style="color: black;">Search</textarea>
+	    	<button class="button" style="position: absolute; top:20px; right: 5px;">
+	    		FILTER
+	    	</button>
+	  </form>
+	  <div class="game-history">
+	{% for game in games_in_history %}	
+		<div class="past-game">
+		<div class="icon" style="background-repeat: no-repeat; 
+							height: 150px; width: 150px; clear: none;
+							background-size: cover; display: block;
+							float: right;
+							background-image: url('/static/images/{{ game.sport }}larger.png');"></div>
+		<div><em>{{ game.name }}</em> <br> {{ game.get_sport_display }} </div> <br>
+		<div class="textual-info" style="height: 155px;">
+			Skill level : &nbsp &nbsp &nbsp &nbsp &nbsp {% if game.style == "comp" %}
+				Competitive
+				{% else %}
+			    Casual
+				{% endif %} <br>
+			Type of Sport: &nbsp &nbsp {{ game.get_sport_display }} <br>
+			Location: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp{{ game.location }}<br>
+			Players Playing: &nbsp {{game.players.count}} player(s)<br>
+		</div>
+        <form action="/joinGame/" method="post">
+          {% csrf_token %}
+          <button class="button" style="float: right;">Join</button>
+          <input type="hidden" name="game_to_join_name" value={{game.name}} />
+        </form>
+      </div>
+	{% endfor %}
+	  </div>
+	</div>
+</div>

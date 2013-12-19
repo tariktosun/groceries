@@ -1,0 +1,16 @@
+  {
+    "model": "futureapp.User",
+    "pk": 2,
+    "fields": {
+      "netid": "ttosun",
+      "firstname": "Tarik",
+      "lastname": "Tosun",
+      "year": "2012",
+      "fbid": "1090920191",
+      "authenticated": "True",
+      "authcode": "hello, world!",
+      "admin": "BAMF",
+      "pic": "https://graph.facebook.com/1090920191/picture?type=square",
+      "largepic": "https://graph.facebook.com/1090920191/picture?type=large"
+    }
+  },

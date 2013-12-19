@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <title>Web F. Site</title>
+    
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
+    <script src="/static/js/main.js"></script>    
+  </head>
+
+  <body>
+    
+    {% autoescape on %}
+    {% include 'nav.html' %}
+    
+    <div class="break">
+    </div>
+
+    <div id="main">
+      <aside class="right">
+	<article>
+	  hash f. tags
+	</article>
+	
+	{% for tag in tags_list|slice:"15" %}
+	<div class="hashtag">
+	  <a href="/{{ tag.text }}/">#{{ tag.text }} </a>
+	</div>
+	{% endfor %}
+	
+	<div id="searchWrapper">
+	  <div class="search">	    
+	  </div>
+	  <form action="/search/" method="post">
+	    {% csrf_token %}
+	    <textarea class="searchBox" name="query">Search</textarea>
+	    <button class="submitButton">
+	      POST
+	    </button>
+	  </form>
+	</div>
+	
+      </aside>
+      
+      <div id="container">
+        
+        {% if not profile_view %}
+        <div class="heading">
+          {% if tag_view %} #{{hash}}
+          {% else %} {% if announcements_view %} Announcements
+          {% else %} {% if search_view %} search: {{searchTerm}}
+          {% else %} Feed
+          {% endif %} {% endif %} {% endif %}
+        </div>
+        
+        {% else %} 
+	<div class="profileBox">
+	  <img src={{profile.pic}} />  
+	  <div class="profileName">
+	    {{ profile.firstname }} {{ profile.lastname }}
+	  </div>
+	</div>
+        {% endif %}
+
+        {% if not tag_view and not announcements_view and not search_view and not profile_view %}
+        <div id="header">
+             
+          <form action="/post/" method="post">
+            {% csrf_token %}
+            
+	    <textarea name="text" class="postPrompt">Post new message</textarea>
+            
+	    <button class="submitButton">
+	      POST
+	    </button>
+            
+            {% if curUser.admin = 'BAMF' or curUser.admin == 'OF'%}
+            <div class="checkboxWork">
+              <input type="checkbox" name="is_announcement" value="True"/><span class="announceText">Post as announcement</span>
+            </div>
+            {% endif %}
+	  </form>
+	  
+        </div>
+        {% endif %}
+        
+        
+        {% for post in post_list|slice:"100" %}
+        <div class="content-container {%if post.announce %} announcement {%endif%}">
+          <div class='post'>
+            
+            <form action="/deletePost/" method="post">
+              {% csrf_token %}
+              {% if post.author == curUser or curUser.admin == 'BAMF' %}
+              <button class="deleteButton">
+                X
+              </button>
+              {% endif %}   
+              <input type="hidden" name="post" value={{ post.pk }} />  
+            </form>
+
+	    <a href="/user/{{ post.author.firstname }}-{{ post.author.lastname }}"> <img src={{post.author.pic}} /></a>
+            
+	    <div class="author">
+              <a href="/user/{{ post.author.firstname }}-{{ post.author.lastname }}">{{ post.author.firstname }} {{ post.author.lastname }} </a>
+	    </div>
+            
+            <div class="posttext">
+	      {{post.text|urlize}} 
+	    </div>
+            
+            {% if post.hasvideo %}
+            <iframe class="postVideo" type="text/html"
+                    src="http://www.youtube.com/embed/{{post.youtubeid}}"
+                    frameborder="0">
+            </iframe>
+            {% endif %}
+            
+            <div class="clear">
+            </div>
+            
+            <div class="postActions">  
+              <span class="action">
+        	{% if post.comment_set.all %} {{post.comment_set.count}} Comments {% else %} Comment {% endif %}
+              </span>
+            </div>
+               
+            <div class="commentBox" {% if post.comment_set.all %} style="display:block" {% endif %}>
+              
+              {% for comment in post.comment_set.all %}
+              <div class="comment">
+                
+                <form action="/deleteComment/" method="post">
+                  {% csrf_token %}
+                  {% if comment.author == curUser or curUser.admin == 'BAMF' %}
+                  <button class="deleteButton">
+                    X
+                  </button>
+                  {% endif %}   
+                  <input type="hidden" name="comment" value={{ comment.pk }} />
+                </form>
+
+        	<a href="/user/{{ comment.author.firstname }}-{{ comment.author.lastname }}"> <img src="{{comment.author.pic}}" /> </a>
+                
+        	<div class="commentAuthor">
+        	  <a href="/user/{{ comment.author.firstname }}-{{ comment.author.lastname }}"> {{ comment.author.firstname }} {{ comment.author.lastname }} </a>
+        	</div>
+                
+        	<div class="commentText">
+        	  {{ comment.text|urlize }} 
+        	</div>
+                
+                {% if comment.hasvideo %}
+                <iframe class="commentVideo" type="text/html"
+                        src="http://www.youtube.com/embed/{{comment.youtubeid}}"
+                        frameborder="0">
+                </iframe>
+                {% endif %}
+                
+              </div>
+              {% endfor %}
+              
+              <form action="/postComment/" method="post">
+                {% csrf_token %}
+		<input type="hidden" name="parentPost" value={{ post.pk }} />
+        	<textarea class="commentPrompt" name="commenttext">Write a comment...</textarea>
+              </form>
+                  
+            </div>
+          </div>  
+          
+        </div>
+        {% endfor %}
+        
+        
+      </div>
+    </div>
+    {% endautoescape %}
+    
+  </body>
+  
+</html>

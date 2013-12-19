@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <title>Web F. Site</title>
+    
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
+    <script src="/static/js/newuser.js"></script>
+  </head>
+
+  <body>
+    
+    {% include 'nav.html' %}
+    <div class="break">      
+    </div>
+
+    <div id="main">
+      <div id="container">
+                
+        <div class="heading">
+          Site Signup 
+        </div>
+        
+        <div class="content-container" style="width:450px;">
+          
+          <div class='post'>
+            <form action="/createuser/" method="post">
+              {% csrf_token %}
+              
+              <textarea name=""              
+              <textarea name="firstname" class="firstform">first name</textarea>
+              <textarea name="lastname" class="lastform">last name</textarea>
+              
+              <div id="bottomForm" style="margin-top:10px;">	
+                <button class="submitButton" style="display:inline;">
+                  Create New User
+                </button>
+                
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+      
+  </body>
+  
+</html>

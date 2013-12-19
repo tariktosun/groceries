@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <title>Web F. Site</title>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css" />
+    <script src="/static/js/menu.js"></script>
+    <script src="/static/js/scripts.js"></script>    
+  </head>
+
+  <body>
+    {% autoescape on %}
+    {% include 'nav.html' %}
+    <div class="break">
+      
+    </div>
+    <div id="main">
+
+      <div id="container">
+        
+        <div class="heading">
+          Menu 
+        </div>
+        
+        {% if curUser.admin == 'BAMF' or curUser.admin == 'FC' %}
+        <div id="header">
+          
+          <form action="/postMenu/" method="post">
+            {% csrf_token %}
+	    <textarea name="text">Post new menu</textarea>
+	    <div></div>
+	    <button class="submitButton">
+	      POST NEW MENU
+	    </button>
+	  </form>
+          
+        </div>
+        {% endif %}
+        
+        {% for menu in menu_list %}
+        <div class="content-container announcement">
+          <div class='menu'>
+            
+            <form action="/deleteMenu/" method="post">
+              {% csrf_token %}
+              {% if curUser.admin == 'BAMF' or curUser.admin == 'FC' %}
+              <button class="deleteButton">
+                X
+              </button>
+              {% endif %}
+              <input type="hidden" name="postMenu" value={{ menu.pk }} />                            
+            </form>
+            
+	  {{menu.text|linebreaksbr}} 
+	  </div>
+          
+        </div>
+        {% endfor %}
+        
+      </div>
+    </div>
+    {% endautoescape %}    
+    
+  </body>
+  
+</html>
