@@ -16,9 +16,11 @@
     <!--link href="../../dist/css/bootstrap.css" rel="stylesheet"-->
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
 
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <!--link href="starter-template.css" rel="stylesheet"-->
-    <link rel="stylesheet" type="text/css" href="/static/css/starter-template.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/groc-home.css" />
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -56,54 +58,41 @@
     <!-- Tarik Added Material -->
     <div class="container">
      <div class="starter-template"> 
-           <h2> Here are the items! </h2>
-           {% for item in items %}
-             <div class="item">
-               {{item.name}} - {{item.frequency}}
-             </div>
-           {% endfor %}
-     
-         <h2> Suggestion List </h2>
-         <ol>
-           {% for item in suggestionListItems %}
-             <li>
-               <form name="addFromSuggestions" action="/suggestionAdd/" method="post">
-                {% csrf_token %}
-                {{item.name}} - {{item.frequency}}
-                <input type="hidden" name="itemPK" value={{ item.pk }}>
-                <input type="submit" value="Add">
-                </form>
-               <!--
-                 <form name="addFromSuggestions" action="/suggestionAdd/" method="post">
-                   {% csrf_token %}
-                   <button class="addSuggestedButton"
-                     add
-                   </button>
-                   <input type="hidden" name="itemPK" value={{ item.pk }} />
+        <div class="row">
+        <div class="col-md-6">
+             <ol>
+             <h2> Suggestion List </h2>
+             {% for item in suggestionListItems %}
+              <li>
+                <form name="addFromSuggestions" action="/suggestionAdd/" method="post">
+                 {% csrf_token %}
+                 <input type="hidden" name="itemPK" value={{ item.pk }}>
+                 <!--input type="submit" value="Add"-->
+                 <button class="btn btn-success btn-small"><i class="glyphicon glyphicon-plus"></i></button>
+                 {{item.name}}
                  </form>
-                -->
-             </li>
-           {% endfor %}
-          </ol>
-     
-           <h2> Shopping List </h2>
-           {% for item in shoppingListItems %}
-             <div class="item">
-               {{item.name}} - {{item.frequency}}
-             </div>
-           {% endfor %}
-     
-           <div class="add-item">
+              </li>
+             {% endfor %}
+           </ol>
+         </div> <!-- span6 -->
+         <div class="col-md-6">
+           <ol>
+              <h2> Shopping List </h2>
+             {% for item in shoppingListItems %}
+               <li>
+                 {{item.name}}
+               </li>
+             {% endfor %}
+             <li>
              <form name="add-item" action="/addItem/" method="post">
-               {% csrf_token %}
-               <div class="textbox">
-                <textarea class="addItemPrompt" name="itemName"> New Item... </textarea>
-                 <div style="width: 100%; text-align:left;">
-                 <input type="submit" class="button" value="Add New Item"></div>
-               </div>
+              {% csrf_token %}
+              <button class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> </button>
+              <input type="text" name="itemName" placeholder="Add new item" class="input-xlarge">
              </form>
-           </div>
-     
+             </li>
+           </ol>
+          </div> <!-- span6 -->
+        </div> <!-- row -->     
            <div class="archiveButton">
              <form name="archive" action="/archive/" method="post">
                {% csrf_token %}
