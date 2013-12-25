@@ -91,16 +91,12 @@
              </form>
              </li>
            </ol>
+           <form name="archive" action="/archive/" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-standard" value="Archive List">
+           </form>
           </div> <!-- span6 -->
         </div> <!-- row -->     
-           <div class="archiveButton">
-             <form name="archive" action="/archive/" method="post">
-               {% csrf_token %}
-               <div style="width: 100%; text-align:left;">
-                 <input type="submit" class="button" value="Archive Shopping List">
-               </div>
-             </form>
-           </div>
       </div>
     </div> <!-- /.container --> 
 
