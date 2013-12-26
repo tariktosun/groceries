@@ -64,13 +64,21 @@
              <h2> Suggestion List </h2>
              {% for item in suggestionListItems %}
               <li>
+              <div>
+                <form name="removeFromSuggestions" action="/suggestionRemove/" method="post">
+                 {% csrf_token %}
+                 <input type="hidden" name="itemPK" value={{ item.pk }}>
+                 <!--input type="submit" value="Add"-->
+                 <button class="btn btn-danger btn-small">X</button>
+                 </form>                 
                 <form name="addFromSuggestions" action="/suggestionAdd/" method="post">
                  {% csrf_token %}
                  <input type="hidden" name="itemPK" value={{ item.pk }}>
                  <!--input type="submit" value="Add"-->
-                 <button class="btn btn-success btn-small"><i class="glyphicon glyphicon-plus"></i></button>
-                 {{item.name}}
+                 <button class="btn btn-success btn-small">+</button>
                  </form>
+                 {{item.name}}
+               </div>
               </li>
              {% endfor %}
            </ol>
@@ -80,13 +88,18 @@
               <h2> Shopping List </h2>
              {% for item in shoppingListItems %}
                <li>
-                 {{item.name}}
+                <form name="removeFromShopping" action="/shoppingRemove/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="removeItemPK" value={{ item.pk }}>
+                <button class="btn btn-danger" >X</button>
+                {{item.name}}
+                </form>
                </li>
              {% endfor %}
              <li>
              <form name="add-item" action="/addItem/" method="post">
               {% csrf_token %}
-              <button class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> </button>
+              <button class="btn btn-success">+</button>
               <input type="text" name="itemName" placeholder="Add new item" class="input-xlarge">
              </form>
              </li>

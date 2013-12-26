@@ -18,3 +18,7 @@ ul, ol {
 .btn-success {
     border-color: #000000;
 }
+
+form {
+    display: inline;
+}

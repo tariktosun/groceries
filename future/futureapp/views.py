@@ -88,7 +88,7 @@ def addFromSuggestions(request):
   """ Adds a new item to the shopping list from the suggestion list, and
   removes item from suggestion list. """
   if request.method != 'POST':
-    return HttpResponse
+    return HttpResponse(status=405)
 
   # get item:
   pk = request.POST.get('itemPK')
@@ -99,18 +99,39 @@ def addFromSuggestions(request):
   # remove from list:
   suggestionList = SuggestionList.objects.all()[0]
   suggestionList.items.remove(item)
-  # # save:
-  # try:
-  #   newItem.save()
-  # except IntegrityError:
-  #   return error(request, 'Database Error: Item Creation failed.')
-
-  # # add to shopping list:
-  # shoppingList = ShoppingList.objects.all()
-  # shoppingList = shoppingList[0] 
-  # shoppingList.items.add(newItem)
-
   return renderGrocHomepage(request);
+
+def removeFromShopping(request):
+  """ Removes an item from the shopping list.
+  It goes back into the suggestion list. """
+  if request.method != 'POST':
+    return HttpResponse(status=405)
+  # get item:
+  pk = request.POST.get('removeItemPK')
+  item = Item.objects.filter(pk = pk)[0]
+  # remove from shopping list:
+  shoppingList = ShoppingList.objects.all()[0]
+  shoppingList.items.remove(item)
+  # re-add to suggestions:
+  suggestionList = SuggestionList.objects.all()[0]
+  suggestionList.items.add(item)
+  return renderGrocHomepage(request); 
+
+def removeFromSuggestions(request):
+  """ Removes item from suggestions without adding to
+  shopping list. """
+  if request.method != 'POST':
+    return HttpResponse(status=405)
+
+  # get item:
+  pk = request.POST.get('itemPK')
+  item = Item.objects.filter(pk = pk)[0]
+  # remove from list:
+  suggestionList = SuggestionList.objects.all()[0]
+  suggestionList.items.remove(item)
+  return renderGrocHomepage(request);
+
+
 
 def archiveShoppingList(request):
   """ Archives the shopping list: Adds 1 to frequency of all items in shopping list, and removes
