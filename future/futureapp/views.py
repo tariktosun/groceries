@@ -26,8 +26,8 @@ from django.db.models import Q # for search
 ### --------------- Groceries stuff begins here  -------------------- ###
 def groc_drop(request):
     """ Drop page for groceries. """
-    #return render_to_response('groc_splash.html')
-    return render_to_response('bootstrap.html')
+    return render_to_response('groc_splash.html')
+    #return render_to_response('bootstrap.html')
 def initializeLists(request):
   """ Initialize ShoppingList and SuggestionList. Should only be called ONCE. """
   #if request.method != 'POST':
